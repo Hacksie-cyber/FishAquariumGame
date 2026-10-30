@@ -1,0 +1,6 @@
+{
+  "name": "Aquaria - Interactive Ambient Aquarium",
+  "description": "An interactive virtual aquarium with lifelike swimming fish, realistic backgrounds, feeding interactions, and soothing underwater ambience.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
