@@ -47,10 +47,13 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
   setIsExpanded,
 }) => {
   return (
-    <aside aria-label="Tank controls" className="absolute bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 max-w-[96vw] select-none">
+    <aside
+      aria-label="Tank controls"
+      className="fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom,0px))] sm:bottom-6 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-2 max-w-[96vw] select-none pointer-events-none"
+    >
       {/* Parameter Control Tray (Expandable) */}
       {isExpanded && (
-        <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-6 p-4 sm:px-5 sm:py-3 rounded-2xl bg-slate-950/95 backdrop-blur-xl border border-white/10 text-xs text-slate-300 shadow-2xl max-h-[50vh] sm:max-h-none overflow-y-auto w-full max-w-md sm:max-w-none">
+        <div className="pointer-events-auto flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center justify-center gap-3 sm:gap-6 p-4 sm:px-5 sm:py-3 rounded-2xl bg-slate-950/95 backdrop-blur-xl border border-white/15 text-xs text-slate-300 shadow-2xl max-h-[45vh] sm:max-h-none overflow-y-auto w-full max-w-md sm:max-w-none ring-1 ring-white/10 animate-in fade-in slide-in-from-bottom-2 duration-200">
           {/* Lighting Mode Selector */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-1.5 sm:gap-2">
             <span className="text-slate-400 font-medium">Lighting:</span>
@@ -107,7 +110,7 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
                 step="0.05"
                 value={aeratorIntensity}
                 onChange={(e) => setAeratorIntensity(parseFloat(e.target.value))}
-                className="w-24 sm:w-20 h-1.5 sm:h-1 accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-24 sm:w-20 h-2 sm:h-1.5 accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
               />
               <span className="font-mono tabular-nums text-slate-400 w-8 text-right">
                 {Math.round(aeratorIntensity * 100)}%
@@ -128,7 +131,7 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
                 step="0.1"
                 value={waterCurrentSpeed}
                 onChange={(e) => setWaterCurrentSpeed(parseFloat(e.target.value))}
-                className="w-24 sm:w-20 h-1.5 sm:h-1 accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
+                className="w-24 sm:w-20 h-2 sm:h-1.5 accent-cyan-400 bg-slate-800 rounded-lg cursor-pointer"
               />
               <span className="font-mono tabular-nums text-slate-400 w-8 text-right">
                 {waterCurrentSpeed.toFixed(1)}x
@@ -146,7 +149,7 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
             </div>
             <button
               onClick={onCleanTank}
-              className="px-3 py-1.5 sm:py-0.5 text-xs text-cyan-300 hover:text-white bg-cyan-950/50 hover:bg-cyan-900/60 rounded-lg border border-cyan-800/40 min-h-[32px] sm:min-h-0 transition-colors"
+              className="px-3 py-1.5 sm:py-1 text-xs text-cyan-300 hover:text-white bg-cyan-950/60 hover:bg-cyan-900/80 rounded-lg border border-cyan-700/50 min-h-[34px] sm:min-h-0 transition-colors"
             >
               Wipe Clean
             </button>
@@ -154,23 +157,29 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
         </div>
       )}
 
-      {/* Main Interactive Tool Dock */}
-      <div className="flex items-center gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-white/10 shadow-2xl max-w-full overflow-x-auto no-scrollbar">
+      {/* Main Interactive Tool Dock - Elevated and fully visible on mobile */}
+      <div className="pointer-events-auto flex items-center justify-center gap-1 sm:gap-2 p-1.5 sm:p-2 rounded-2xl bg-slate-950/92 backdrop-blur-xl border border-cyan-500/25 shadow-[0_12px_40px_rgba(0,0,0,0.7)] ring-1 ring-white/10 max-w-full overflow-x-auto no-scrollbar">
         {/* Tool: Feed */}
         <button
           onClick={() => setActiveTool('feed')}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 min-h-[42px] text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`relative flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 text-[10px] sm:text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
             activeTool === 'feed'
-              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-900/60'
+              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Click or tap inside tank to drop food flakes and grow your fish!"
         >
           <Utensils className="w-4 h-4 shrink-0" />
-          <span className="hidden xs:inline sm:hidden">Feed</span>
+          <span className="sm:hidden">Feed</span>
           <span className="hidden sm:inline">Feed & Grow</span>
           {foodCount > 0 && (
-            <span className="ml-0.5 text-[10px] px-1.5 py-0.2 bg-slate-900/40 rounded-full font-mono">
+            <span
+              className={`text-[9px] sm:text-[10px] px-1 py-0.2 rounded-full font-mono ${
+                activeTool === 'feed'
+                  ? 'bg-slate-950/30 text-slate-950 font-bold'
+                  : 'bg-cyan-500/30 text-cyan-300'
+              }`}
+            >
               {foodCount}
             </span>
           )}
@@ -179,77 +188,79 @@ export const ToolbarDeck: React.FC<ToolbarDeckProps> = ({
         {/* Tool: Tap Glass */}
         <button
           onClick={() => setActiveTool('tap')}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 min-h-[42px] text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 text-[10px] sm:text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
             activeTool === 'tap'
-              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-900/60'
+              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Click or tap to vibrate glass and startle fish"
         >
           <Hand className="w-4 h-4 shrink-0" />
-          <span className="hidden xs:inline sm:hidden">Tap</span>
+          <span className="sm:hidden">Tap</span>
           <span className="hidden sm:inline">Tap Glass</span>
         </button>
 
         {/* Tool: Light Beam */}
         <button
           onClick={() => setActiveTool('light')}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 min-h-[42px] text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 text-[10px] sm:text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
             activeTool === 'light'
-              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-900/60'
+              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Move cursor or finger to cast a sunlit torch beam"
         >
           <Flashlight className="w-4 h-4 shrink-0" />
-          <span className="hidden xs:inline sm:hidden">Light</span>
+          <span className="sm:hidden">Light</span>
           <span className="hidden sm:inline">Sunbeam</span>
         </button>
 
         {/* Tool: Clean Squeegee */}
         <button
           onClick={() => setActiveTool('clean')}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 min-h-[42px] text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 text-[10px] sm:text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
             activeTool === 'clean'
-              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-900/60'
+              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Drag finger or mouse on glass to wipe algae and fog"
         >
           <Eraser className="w-4 h-4 shrink-0" />
-          <span className="hidden xs:inline sm:hidden">Clean</span>
+          <span className="sm:hidden">Clean</span>
           <span className="hidden sm:inline">Squeegee</span>
         </button>
 
         {/* Tool: Inspect Fish */}
         <button
           onClick={() => setActiveTool('inspect')}
-          className={`flex items-center justify-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-2 min-h-[42px] text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 text-[10px] sm:text-xs font-medium rounded-xl shrink-0 transition-all active:scale-95 ${
             activeTool === 'inspect'
-              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/25'
-              : 'text-slate-300 hover:text-white hover:bg-slate-900/60'
+              ? 'bg-cyan-500 text-slate-950 font-semibold shadow-lg shadow-cyan-500/30'
+              : 'text-slate-300 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Click or tap any fish to inspect vitals and origin"
         >
           <Eye className="w-4 h-4 shrink-0" />
-          <span className="hidden xs:inline sm:hidden">Inspect</span>
+          <span className="sm:hidden">Inspect</span>
           <span className="hidden sm:inline">Inspect Fish</span>
         </button>
 
         {/* Tank Parameters Toggle */}
-        <div className="w-[1px] h-5 bg-white/10 mx-0.5 sm:mx-1 shrink-0" />
+        <div className="w-[1px] h-6 sm:h-5 bg-white/15 mx-0.5 sm:mx-1 shrink-0" />
 
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className={`p-2.5 sm:p-2 min-w-[42px] min-h-[42px] flex items-center justify-center rounded-xl shrink-0 transition-all active:scale-95 ${
+          className={`flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-1.5 px-2 sm:px-3 py-1.5 sm:py-2 min-h-[48px] sm:min-h-[42px] min-w-[46px] sm:min-w-0 rounded-xl shrink-0 transition-all active:scale-95 ${
             isExpanded
-              ? 'bg-cyan-950 text-cyan-300 border border-cyan-800/50'
-              : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              ? 'bg-cyan-950/80 text-cyan-300 border border-cyan-500/40 shadow-sm'
+              : 'text-slate-400 hover:text-white hover:bg-slate-900/70'
           }`}
           title="Toggle tank settings (lighting, aerator, current)"
           aria-label="Toggle tank settings"
         >
-          <Sliders className="w-4 h-4" />
+          <Sliders className="w-4 h-4 shrink-0" />
+          <span className="text-[10px] sm:hidden">Tank</span>
+          <span className="hidden sm:inline text-xs">Settings</span>
         </button>
       </div>
     </aside>

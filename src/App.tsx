@@ -146,7 +146,7 @@ export default function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex flex-col bg-slate-950 font-sans">
+    <div className="relative w-full h-[100dvh] min-h-[100dvh] overflow-hidden flex flex-col bg-slate-950 font-sans">
       {/* Top Navigation Bar adhering to Top Bar Contract */}
       <TopBar
         currentTheme={currentTheme}
