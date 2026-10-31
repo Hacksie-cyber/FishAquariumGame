@@ -1,11 +1,15 @@
 import { AquariumTheme, FishSpecies } from '../types/aquarium';
+import coralReefImg from '../assets/images/coral_reef_backdrop_1792979535730.jpg';
+import amazonAquascapeImg from '../assets/images/amazon_aquascape_backdrop_1792979552528.jpg';
+import bioluminescentAbyssImg from '../assets/images/bioluminescent_abyss_backdrop_1792979567646.jpg';
+import zenRiverImg from '../assets/images/zen_aquarium_backdrop_1792979582950.jpg';
 
 export const AQUARIUM_THEMES: AquariumTheme[] = [
   {
     id: 'coral-reef',
     name: 'Indo-Pacific Coral Reef',
     category: 'Marine Reef',
-    imagePath: '/src/assets/images/coral_reef_backdrop_1792979535730.jpg',
+    imagePath: coralReefImg,
     description: 'Sun-drenched barrier reef teeming with vibrant acropora corals, sea anemones, and crystal azure waters.',
     waterTint: 'rgba(6, 182, 212, 0.08)',
     ambientLightColor: '#38bdf8',
@@ -18,7 +22,7 @@ export const AQUARIUM_THEMES: AquariumTheme[] = [
     id: 'amazon-aquascape',
     name: 'Amazon Rainforest Aquascape',
     category: 'Freshwater',
-    imagePath: '/src/assets/images/amazon_aquascape_backdrop_1792979552528.jpg',
+    imagePath: amazonAquascapeImg,
     description: 'High-art nature aquarium with weathered driftwood roots, lush aquatic mosses, river stones, and warm caustics.',
     waterTint: 'rgba(34, 197, 94, 0.07)',
     ambientLightColor: '#86efac',
@@ -31,7 +35,7 @@ export const AQUARIUM_THEMES: AquariumTheme[] = [
     id: 'bioluminescent-abyss',
     name: 'Bioluminescent Midnight Abyss',
     category: 'Deep Ocean',
-    imagePath: '/src/assets/images/bioluminescent_abyss_backdrop_1792979567646.jpg',
+    imagePath: bioluminescentAbyssImg,
     description: 'Deep oceanic trench where iridescent fluorescent corals and glowing marine life illuminate the deep twilight.',
     waterTint: 'rgba(99, 102, 241, 0.14)',
     ambientLightColor: '#818cf8',
@@ -44,7 +48,7 @@ export const AQUARIUM_THEMES: AquariumTheme[] = [
     id: 'zen-river',
     name: 'Kyoto Zen River Garden',
     category: 'Zen Stream',
-    imagePath: '/src/assets/images/zen_aquarium_backdrop_1792979582950.jpg',
+    imagePath: zenRiverImg,
     description: 'Serene Japanese stream bed with basalt river pebbles, clean river sand, and tranquil crystal current.',
     waterTint: 'rgba(20, 184, 166, 0.06)',
     ambientLightColor: '#5eead4',
