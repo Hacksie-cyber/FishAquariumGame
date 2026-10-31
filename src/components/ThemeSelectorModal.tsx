@@ -15,12 +15,12 @@ export const ThemeSelectorModal: React.FC<ThemeSelectorModalProps> = ({
   onClose,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-6 text-slate-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl max-h-[88vh] overflow-y-auto bg-slate-900 border border-white/10 rounded-2xl shadow-2xl p-4 sm:p-6 text-slate-100">
         {/* Header */}
-        <div className="flex items-center justify-between pb-4 border-b border-white/10">
+        <div className="flex items-center justify-between pb-3 sm:pb-4 border-b border-white/10">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight text-white">
               Aquarium Environments
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -29,14 +29,15 @@ export const ThemeSelectorModal: React.FC<ThemeSelectorModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-2 min-w-[40px] min-h-[40px] flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Themes Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
           {AQUARIUM_THEMES.map((theme) => {
             const isSelected = theme.id === currentTheme.id;
             return (

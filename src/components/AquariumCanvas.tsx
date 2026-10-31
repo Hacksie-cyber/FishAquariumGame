@@ -223,6 +223,67 @@ export const AquariumCanvas: React.FC<AquariumCanvasProps> = ({
     mousePosRef.current = { x: -200, y: -200, isDown: false };
   };
 
+  // Mobile Touch Event Handlers
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas || e.touches.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    mousePosRef.current = { x, y, isDown: true };
+
+    if (activeTool === 'feed') {
+      dropFood(x, y);
+    } else if (activeTool === 'tap') {
+      triggerGlassTap(x, y);
+    } else if (activeTool === 'clean') {
+      setTankCleanliness((prev) => Math.min(100, prev + 6));
+      audioEngine.playNibble();
+    } else if (activeTool === 'inspect') {
+      // Find clicked/tapped fish (with generous touch radius)
+      let clickedFish: FishInstance | null = null;
+      for (let i = fishRef.current.length - 1; i >= 0; i--) {
+        const f = fishRef.current[i];
+        const species = speciesCatalogMap.get(f.speciesId);
+        const radius = (species?.bodyWidth || 50) * 0.9;
+        const dist = Math.hypot(f.x - x, f.y - y);
+        if (dist < radius) {
+          clickedFish = f;
+          break;
+        }
+      }
+      onSelectFish(clickedFish);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas || e.touches.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches[0];
+    const x = touch.clientX - rect.left;
+    const y = touch.clientY - rect.top;
+
+    mousePosRef.current = { x, y, isDown: true };
+
+    if (activeTool === 'clean') {
+      setTankCleanliness((prev) => Math.min(100, prev + 0.8));
+    }
+  };
+
+  const handleTouchEnd = () => {
+    mousePosRef.current.isDown = false;
+    if (activeTool === 'light') {
+      setTimeout(() => {
+        if (!mousePosRef.current.isDown) {
+          mousePosRef.current = { x: -200, y: -200, isDown: false };
+        }
+      }, 1500);
+    }
+  };
+
   // Main 60fps simulation loop
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -832,7 +893,10 @@ export const AquariumCanvas: React.FC<AquariumCanvasProps> = ({
         onClick={handleCanvasClick}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className={`relative z-10 w-full h-full block ${
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className={`relative z-10 w-full h-full block touch-none ${
           activeTool === 'feed'
             ? 'cursor-pointer'
             : activeTool === 'clean'

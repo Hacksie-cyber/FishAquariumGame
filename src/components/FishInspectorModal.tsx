@@ -23,7 +23,7 @@ export const FishInspectorModal: React.FC<FishInspectorModalProps> = ({
     fish.y < 200 ? 'Pelagic Surface Zone' : fish.y > 600 ? 'Benthic Substrate Layer' : 'Midwater Reef Realm';
 
   return (
-    <div className="fixed bottom-20 right-6 z-40 w-84 bg-slate-950/92 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl p-5 text-slate-100 animate-in slide-in-from-bottom-4 duration-200">
+    <div className="fixed bottom-20 left-3 right-3 sm:left-auto sm:right-6 z-40 w-auto sm:w-84 max-w-sm mx-auto bg-slate-950/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-4 sm:p-5 text-slate-100 animate-in slide-in-from-bottom-4 duration-200">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
@@ -37,8 +37,9 @@ export const FishInspectorModal: React.FC<FishInspectorModalProps> = ({
         </div>
         <button
           onClick={onClose}
-          className="p-1 text-slate-400 hover:text-white rounded-lg transition-colors"
+          className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center text-slate-400 hover:text-white rounded-lg transition-colors"
           title="Close inspector"
+          aria-label="Close fish inspector"
         >
           <X className="w-4 h-4" />
         </button>
@@ -90,14 +91,14 @@ export const FishInspectorModal: React.FC<FishInspectorModalProps> = ({
       <div className="flex items-center gap-2 mt-4 pt-3 border-t border-white/10">
         <button
           onClick={() => onFeedNearFish(fish)}
-          className="flex-1 flex items-center justify-center gap-1.5 py-1.5 px-3 text-xs font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-lg transition-colors active:scale-95"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 px-3 min-h-[42px] text-xs font-semibold text-slate-950 bg-cyan-400 hover:bg-cyan-300 rounded-xl transition-colors active:scale-95"
         >
           <Utensils className="w-3.5 h-3.5" />
           <span>Feed & Grow</span>
         </button>
         <button
           onClick={onClose}
-          className="py-1.5 px-3 text-xs font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-lg transition-colors"
+          className="py-2 px-3 min-h-[42px] text-xs font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 rounded-xl transition-colors active:scale-95"
         >
           Done
         </button>

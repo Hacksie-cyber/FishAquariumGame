@@ -21,12 +21,12 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200 select-none">
-      <div className="relative w-full max-w-4xl max-h-[90vh] flex flex-col bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-200 select-none">
+      <div className="relative w-full max-w-4xl max-h-[88vh] flex flex-col bg-slate-900 border border-white/10 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 pb-4 border-b border-white/10">
+        <div className="flex items-center justify-between p-4 sm:p-6 pb-3 sm:pb-4 border-b border-white/10">
           <div>
-            <h2 className="text-xl font-bold tracking-tight text-white">
+            <h2 className="text-lg sm:text-xl font-bold tracking-tight text-white">
               Aquatic Species Field Guide
             </h2>
             <p className="text-xs text-slate-400 mt-0.5">
@@ -35,17 +35,18 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-2 min-w-[40px] min-h-[40px] flex items-center justify-center text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Filter bar (Segmented controls) */}
-        <div className="flex items-center gap-1 px-6 py-3 bg-slate-950/60 border-b border-white/5">
+        <div className="flex items-center gap-1.5 px-4 sm:px-6 py-2.5 sm:py-3 bg-slate-950/60 border-b border-white/5 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setFilterType('all')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+            className={`px-3 py-1.5 min-h-[36px] whitespace-nowrap shrink-0 text-xs font-medium rounded-lg transition-colors ${
               filterType === 'all'
                 ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
                 : 'text-slate-400 hover:text-white'
@@ -55,7 +56,7 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
           </button>
           <button
             onClick={() => setFilterType('marine')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+            className={`px-3 py-1.5 min-h-[36px] whitespace-nowrap shrink-0 text-xs font-medium rounded-lg transition-colors ${
               filterType === 'marine'
                 ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
                 : 'text-slate-400 hover:text-white'
@@ -65,7 +66,7 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
           </button>
           <button
             onClick={() => setFilterType('freshwater')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+            className={`px-3 py-1.5 min-h-[36px] whitespace-nowrap shrink-0 text-xs font-medium rounded-lg transition-colors ${
               filterType === 'freshwater'
                 ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
                 : 'text-slate-400 hover:text-white'
@@ -75,7 +76,7 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
           </button>
           <button
             onClick={() => setFilterType('special')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+            className={`px-3 py-1.5 min-h-[36px] whitespace-nowrap shrink-0 text-xs font-medium rounded-lg transition-colors ${
               filterType === 'special'
                 ? 'bg-cyan-500/20 text-cyan-300 font-semibold'
                 : 'text-slate-400 hover:text-white'
@@ -88,7 +89,7 @@ export const EncyclopediaModal: React.FC<EncyclopediaModalProps> = ({
         {/* Body Split View */}
         <div className="flex-1 grid grid-cols-1 md:grid-cols-12 overflow-hidden">
           {/* Left Species List */}
-          <div className="md:col-span-5 overflow-y-auto p-4 space-y-2 border-r border-white/10 max-h-[60vh]">
+          <div className="md:col-span-5 overflow-y-auto p-3 sm:p-4 space-y-2 border-b md:border-b-0 md:border-r border-white/10 max-h-[28vh] md:max-h-[60vh]">
             {filteredSpecies.map((species) => {
               const isSelected = species.id === selectedSpecies.id;
               return (
