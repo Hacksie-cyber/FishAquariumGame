@@ -10,6 +10,8 @@ import { ThemeSelectorModal } from './components/ThemeSelectorModal';
 import { FishInspectorModal } from './components/FishInspectorModal';
 import { PopulationManagerModal } from './components/PopulationManagerModal';
 import { EncyclopediaModal } from './components/EncyclopediaModal';
+import { SensorSidePanel } from './components/SensorSidePanel';
+import { useSensors } from './utils/useSensors';
 
 export default function App() {
   // Theme & Atmosphere State
@@ -37,6 +39,17 @@ export default function App() {
 
   // Fullscreen State
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  // Sensor Telemetry Probes State (Side Area Monitor)
+  const {
+    telemetry: sensorTelemetry,
+    tempUnit,
+    setTempUnit,
+    isCollapsed: isSensorsCollapsed,
+    setIsCollapsed: setIsSensorsCollapsed,
+    isCalibrating: isSensorsCalibrating,
+    calibrateProbes,
+  } = useSensors(currentTheme, lightMode, aeratorIntensity, waterCurrentSpeed, tankCleanliness);
 
   // Sync aerator intensity with audio engine
   useEffect(() => {
@@ -160,10 +173,25 @@ export default function App() {
         setActiveTab={setActiveTab}
         fishCount={fishList.length}
         onQuickFeed={handleQuickFeed}
+        telemetry={sensorTelemetry}
+        tempUnit={tempUnit}
+        onToggleSensors={() => setIsSensorsCollapsed(!isSensorsCollapsed)}
       />
 
       {/* Main Interactive Stage Area */}
       <main className="relative flex-1 w-full h-full overflow-hidden">
+        {/* Side Area: Live Sensor Telemetry Panel (Temp, Humidity, pH, DO, Salinity) */}
+        <SensorSidePanel
+          currentTheme={currentTheme}
+          telemetry={sensorTelemetry}
+          tempUnit={tempUnit}
+          setTempUnit={setTempUnit}
+          isCollapsed={isSensorsCollapsed}
+          setIsCollapsed={setIsSensorsCollapsed}
+          isCalibrating={isSensorsCalibrating}
+          onCalibrate={calibrateProbes}
+        />
+
         <AquariumCanvas
           currentTheme={currentTheme}
           lightMode={lightMode}

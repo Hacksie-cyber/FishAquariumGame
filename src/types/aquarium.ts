@@ -115,3 +115,24 @@ export interface LightMote {
 }
 
 export type InteractionTool = 'feed' | 'tap' | 'light' | 'clean' | 'inspect';
+
+export interface SensorTelemetry {
+  waterTempC: number;
+  waterTempF: number;
+  ambientTempC: number;
+  ambientTempF: number;
+  humidityPercent: number;
+  phLevel: number;
+  dissolvedOxygenMgL: number;
+  salinityPpt: number;
+  tdsPpm: number;
+  clarityPercent: number;
+  isCalibrating: boolean;
+  history: {
+    temp: number[];
+    humidity: number[];
+    ph: number[];
+    oxygen: number[];
+  };
+  lastSync: Date;
+}

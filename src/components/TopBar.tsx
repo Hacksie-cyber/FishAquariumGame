@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, Maximize2, Minimize2, Droplets, Menu, X, Compass, Users, BookOpen, Waves } from 'lucide-react';
-import { AquariumTheme } from '../types/aquarium';
+import {
+  Volume2,
+  VolumeX,
+  Maximize2,
+  Minimize2,
+  Droplets,
+  Menu,
+  X,
+  Compass,
+  Users,
+  BookOpen,
+  Waves,
+  Activity,
+} from 'lucide-react';
+import { AquariumTheme, SensorTelemetry } from '../types/aquarium';
 
 interface TopBarProps {
   currentTheme: AquariumTheme;
@@ -14,6 +27,9 @@ interface TopBarProps {
   setActiveTab: (tab: 'aquarium' | 'themes' | 'population' | 'encyclopedia') => void;
   fishCount: number;
   onQuickFeed: () => void;
+  telemetry?: SensorTelemetry;
+  tempUnit?: 'C' | 'F';
+  onToggleSensors?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -28,6 +44,9 @@ export const TopBar: React.FC<TopBarProps> = ({
   setActiveTab,
   fishCount,
   onQuickFeed,
+  telemetry,
+  tempUnit = 'C',
+  onToggleSensors,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -53,15 +72,36 @@ export const TopBar: React.FC<TopBarProps> = ({
             Aquaria
           </span>
 
-          <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 font-mono tabular-nums">
-            <span>{currentTheme.name}</span>
-            <span aria-hidden="true">·</span>
-            <span>{fishCount} Residents</span>
-            <span aria-hidden="true">·</span>
-            <span>{currentTheme.waterTemperature}°C</span>
-            <span aria-hidden="true">·</span>
-            <span>pH {currentTheme.phLevel}</span>
-          </div>
+          {telemetry ? (
+            <button
+              onClick={onToggleSensors}
+              className="hidden lg:flex items-center gap-2 text-xs font-mono tabular-nums text-slate-300 hover:text-white px-2.5 py-1 rounded-xl bg-slate-900/60 hover:bg-slate-900 border border-white/5 hover:border-cyan-500/30 transition-all cursor-pointer group"
+              title="Click to toggle side sensor telemetry panel"
+            >
+              <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-400 group-hover:animate-ping" />
+              <span className="text-slate-400">{currentTheme.name}</span>
+              <span aria-hidden="true" className="text-slate-600">·</span>
+              <span>{fishCount} fish</span>
+              <span aria-hidden="true" className="text-slate-600">·</span>
+              <span className="text-cyan-300 font-semibold">
+                {tempUnit === 'C' ? telemetry.waterTempC.toFixed(1) : telemetry.waterTempF.toFixed(1)}°{tempUnit}
+              </span>
+              <span aria-hidden="true" className="text-slate-600">·</span>
+              <span className="text-blue-300">{telemetry.humidityPercent.toFixed(0)}% RH</span>
+              <span aria-hidden="true" className="text-slate-600">·</span>
+              <span className="text-emerald-300">pH {telemetry.phLevel.toFixed(2)}</span>
+            </button>
+          ) : (
+            <div className="hidden lg:flex items-center gap-2 text-xs text-slate-400 font-mono tabular-nums">
+              <span>{currentTheme.name}</span>
+              <span aria-hidden="true">·</span>
+              <span>{fishCount} Residents</span>
+              <span aria-hidden="true">·</span>
+              <span>{currentTheme.waterTemperature}°C</span>
+              <span aria-hidden="true">·</span>
+              <span>pH {currentTheme.phLevel}</span>
+            </div>
+          )}
         </div>
 
         {/* Zone 2: Desktop 4 clean single-line navigation links/tabs */}
@@ -196,10 +236,29 @@ export const TopBar: React.FC<TopBarProps> = ({
             </button>
           </div>
 
-          {/* Mobile Tank Telemetry Summary */}
-          <div className="flex items-center justify-between pt-3 text-[11px] text-slate-400 font-mono tabular-nums">
-            <span>{currentTheme.name}</span>
-            <span>{fishCount} fish · {currentTheme.waterTemperature}°C · pH {currentTheme.phLevel}</span>
+          {/* Mobile Tank Telemetry Summary & Open Sensors Action */}
+          <div className="pt-3">
+            <button
+              onClick={() => {
+                onToggleSensors?.();
+                setIsMobileMenuOpen(false);
+              }}
+              className="w-full flex items-center justify-between p-2.5 bg-slate-900/90 hover:bg-slate-850 border border-cyan-500/20 rounded-xl text-xs transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Activity className="w-3.5 h-3.5 text-cyan-400" />
+                <span className="font-semibold text-slate-200">Side Sensor Telemetry</span>
+              </div>
+              <div className="flex items-center gap-1.5 font-mono text-[11px] text-cyan-300">
+                {telemetry ? (
+                  <span>
+                    {tempUnit === 'C' ? telemetry.waterTempC.toFixed(1) : telemetry.waterTempF.toFixed(1)}°{tempUnit} · {telemetry.humidityPercent.toFixed(0)}% RH · pH {telemetry.phLevel.toFixed(1)}
+                  </span>
+                ) : (
+                  <span>{currentTheme.waterTemperature}°C · pH {currentTheme.phLevel}</span>
+                )}
+              </div>
+            </button>
           </div>
 
           {/* Mobile Volume Control if unmuted */}
